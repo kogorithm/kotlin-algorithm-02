@@ -1,5 +1,6 @@
 import kotlin.math.abs
 import kotlin.math.min
+import kotlin.system.exitProcess
 
 
 val ability : MutableList<List<Int>> = mutableListOf()
@@ -16,19 +17,31 @@ fun main(){
         ability.add(list)
     }
 
+    fun getAbility(){
+        var team1 = 0
+        var team2 = 0
+
+        for(i in 0 until n-1) {
+            for(j in i+1 until n) {
+
+                if(visited[i] && visited[j]) {
+                    team1 += ability[i][j] + ability[j][i];
+                }
+                else if( !visited[i] && !visited[j] ) {
+                    team2 += ability[i][j] + ability[j][i];
+                }
+            }
+        }
+        min = min(min, abs(team1-team2))
+        if(min == 0) {
+            println(min)
+            exitProcess(0)
+        }
+    }
+
     fun dfs(index : Int, depth : Int){
         if(depth == n/2){
-            val team1 : MutableList<Int> = mutableListOf()
-            val team2 : MutableList<Int> = mutableListOf()
-            visited.forEachIndexed { index, it ->
-                if(it) { team1.add(index+1)}
-                else { team2.add(index+1)}
-            }
-            min = min(min, abs(getAbility(team1)-getAbility(team2)))
-            if(min == 0) {
-                println(min)
-                System.exit(0);
-            }
+            getAbility()
             return;
         }
         for (i in index until n){
@@ -39,24 +52,8 @@ fun main(){
         }
     }
 
+
     dfs(0,0)
     println(min)
 }
 
-
-fun getAbility(list : List<Int>): Int{
-    var sum = 0
-    permutation(list).forEach {
-        sum += ability[it[0]-1][it[1]-1]
-    }
-    return sum
-}
-
-fun <T> permutation(el: List<T>, fin: List<T> = listOf(), sub: List<T> = el ): List<List<T>> {
-    return if(sub.isEmpty()|| fin.size > 1) listOf(fin)
-    else {
-        sub.flatMap {
-            permutation(el, fin + it, sub - it)
-        }
-    }
-}
