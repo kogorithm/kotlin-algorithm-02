@@ -18,50 +18,58 @@ package `1week`.byeonghee
 
 import kotlin.system.exitProcess
 
-const val BOUND = 10
-
-val pascal = List(11) { IntArray(11) }
-
-fun initPascal() {
-    for(i in 0..10) {
-        pascal[i][0] = 1
-
-        for(j in 1..i) {
-            pascal[i][j] = pascal[i - 1][j - 1] + pascal[i - 1][j]
+class `감소하는수_소병희` {
+    companion object {
+        fun getSolution(): Solution {
+            return Solution()
         }
     }
 
-    pascal.forEach {
-        println(it.joinToString("\t"))
+    class Solution {
+        private val pascal = List(11) { IntArray(11) }
+
+        private fun initPascal() {
+            for(i in 0..10) {
+                pascal[i][0] = 1
+
+                for(j in 1..i) {
+                    pascal[i][j] = pascal[i - 1][j - 1] + pascal[i - 1][j]
+                }
+            }
+        }
+
+        var order = 0
+        var answer = 0L
+        var row = 0
+        var col = 0
+
+        fun solution() {
+            order = readln().toInt().let {
+                if (it <= 0) { println(0); exitProcess(0) }
+                else it + 1
+            }
+
+            initPascal()
+
+            with(pascal[10]) {
+                this[0] = 0
+                while(col < 11 && this[col] < order) {
+                    order -= this[col++]
+                }
+            }
+            if (col == 11 && order > 0) { println(-1); exitProcess(0) }
+
+            while(col > 0) {
+                row = (9 downTo 0).first { pascal[it][col] < order }
+                order -= pascal[row][col--]
+                answer = answer * 10 + row
+            }
+
+            println(answer)
+        }
     }
 }
 
-var order = 0
-var answer = 0L
-var row = 0
-var col = 0
-
 fun main() {
-    order = readln().toInt().let {
-        if (it <= 0) { println(0); exitProcess(0) }
-        else it + 1
-    }
-
-    initPascal()
-
-    with(pascal[BOUND]) {
-        this[0] = 0
-        while(col < BOUND && this[col] < order) {
-            order -= this[col++]
-        }
-    }
-    if (col == BOUND && order > 0) { println(-1); exitProcess(0) }
-
-    while(col > 0) {
-        row = (9 downTo 0).first { pascal[it][col] < order }
-        order -= pascal[row][col--]
-        answer = answer * 10 + row
-    }
-
-    println(answer)
+    `감소하는수_소병희`.getSolution().solution()
 }
