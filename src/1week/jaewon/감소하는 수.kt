@@ -1,3 +1,4 @@
+
 /**
  * 최대 감소하는 수 : 9876543210
  * 최대 개수 : 1023
@@ -18,12 +19,11 @@ fun main(){
         }
     }
 
-    answer = if(n < 10){ n }
-    else if( n >= 1023 ){ -1 }
+    if(n <= 10){ answer = n }
+    else if( n >= 1023 ){ answer = -1 }
     else {
         findDecrease(0,1,0)
-        list.sort()
-        list[n].toInt()
+        answer = list.sorted()[n].toInt()
     }
 
     println(answer)
