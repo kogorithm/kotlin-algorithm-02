@@ -1,7 +1,7 @@
 package `1week`.hyunsoo
 
 /**
- * 나름 간단한 BFS문제인 것 같다?
+ * 나름 간단한 DFS문제인 것 같다?
  * 9개의 방향을 모두 탐색하면 될듯!
  * - 연결된 1들은 모두 0으로 바꾸고 1개로 처리하기!
  */
@@ -38,14 +38,14 @@ fun main() {
 
     for (i in 0 until m) {
         for (j in 0 until n) {
-            if (bfs(i, j)) wordCnt++
+            if (dfs(i, j)) wordCnt++
         }
     }
 
     println(wordCnt)
 }
 
-fun bfs(x: Int, y: Int): Boolean {
+fun dfs(x: Int, y: Int): Boolean {
 
     // 0 이면 애초에 글자가 아님.
     if (banner[x][y] == '0') return false
@@ -57,7 +57,7 @@ fun bfs(x: Int, y: Int): Boolean {
         val nx = x + pos.x
         val ny = y + pos.y
 
-        if (nx in 0 until m && ny in 0 until n) bfs(nx, ny)
+        if (nx in 0 until m && ny in 0 until n) dfs(nx, ny)
 
     }
 
