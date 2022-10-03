@@ -2,6 +2,7 @@ package `1week`.byeonghee
 
 import java.io.*
 import java.lang.Integer.max
+import java.lang.Integer.min
 
 /**
  * 접근방법: 윈도우?
@@ -10,7 +11,7 @@ import java.lang.Integer.max
  * 선물이 이동하지 않고 컨베이어 배열이 한 칸씩 전진하며 대응하는 인덱스의 선물을 확인한다.
  */
 
-const val OFF_BELT = 0 // 안 올라왔거나, 포장 중이거나, 포장이 끝났거나
+const val OFF_BELT = 0
 const val ON_BELT = 1
 
 const val FREE = 0
@@ -23,17 +24,13 @@ var N = 0
 var M = 0
 
 val around = listOf(
-    Pair(1, -1),
     Pair(1, 0),
-    Pair(1, 1),
     Pair(0, 1),
-    Pair(-1, 1),
-    Pair(-1, 0),
-    Pair(-1, -1)
+    Pair(-1, 0)
 )
 
 
-data class Staff(val r: Int, val c: Int, val t: Int, var state: Int = FREE, var tWork: Int = 0)
+data class Staff(val r: Int, val c: Int, val cost: Int, var state: Int = FREE, var tWork: Int = 0)
 val staffs = mutableListOf<Staff>()
 var presents = IntArray(0)
 var belts = mutableListOf<MutableList<Int>>()
@@ -54,47 +51,43 @@ fun main():Unit = with(br) {
         presents = IntArray(M)
     }
 
-    var (r, c) = listOf(0, 0)
+    var (fr, fc) = listOf(0, 0)
     repeat(3 * B - 2) { idx ->
-        factory[r][c] = idx
-        if (r == B - 1) c--
-        else if (c == B - 1) r++
-        else c++
+        factory[fr][fc] = idx
+        if (fr == B - 1) fc--
+        else if (fc == B - 1) fr++
+        else fc++
     }
-
-    repeat(N) {
-        readInts().run {
-            staffs.add(Staff(this[0], this[1], this[2]))
-        }
-    }
-    staffs.sortBy { it.r * B + it.c }
 
     repeat(N) { i ->
-        with(staffs[i]) {
-            for((dr, dc) in around) {
-                if (r + dr >= 0 && c + dc >= 0) {
-                    val idx = factory[r + dr][c + dc]
-                    if (idx >= 0) {
-                        belts[idx].add(i)
+        readInts().run {
+            staffs.add(Staff(this[0], this[1], this[2]))
+
+            with(staffs[i]) {
+                for((dr, dc) in around) {
+                    if (r + dr >= 0 && c + dc >= 0) {
+                        val idx = factory[r + dr][c + dc]
+                        if (idx >= 0) {
+                            belts[idx].add(i)
+                        }
                     }
                 }
             }
         }
     }
 
-    for(t in 0 until M) {
-        presents[t] = ON_BELT
+    for(t in 0 until M + belts.lastIndex) {
+        if (t < M) presents[t] = ON_BELT
 
-        for(b in 0..t) {
-            if(presents[t - b] == ON_BELT) {
-                belts[b].forEach { staff_id ->
+        for(b in min(t, belts.lastIndex) downTo max(0, t - presents.lastIndex)) {
+            if(presents[t - b] == ON_BELT && belts[b].isNotEmpty()) {
+                belts[b].first().also { staff_id ->
                     staffs[staff_id].run {
                         if (state == FREE) {
                             state = WORK
-                            tWork = t + 1
+                            tWork = cost
                             presents[t - b] = OFF_BELT
                             doneCount++
-                            return@forEach
                         }
                     }
                 }
@@ -105,7 +98,8 @@ fun main():Unit = with(br) {
             if (staffs[i].state == FREE) continue
 
             staffs[i].run {
-                if(--tWork == 0) state = FREE
+                tWork--
+                if(tWork == 0) state = FREE
             }
         }
     }
