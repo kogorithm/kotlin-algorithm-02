@@ -1,10 +1,10 @@
 fun main(){
     val N=readln().toInt()
-    var a=readln().split(" ").map { it.toInt() }.toMutableList()
-    var b=readln().split(" ").map{it.toInt()}.toMutableList()
+    var a=readln().split(" ").map { it.toInt() }
+    var b=readln().split(" ").map{it.toInt()}
     var answer=0
-    a.sort()
-    b.sortByDescending { it }
+    a=a.sorted()
+    b=b.sortedByDescending { it }
 
     for(i in 0 until N){
         answer+=a[i]*b[i]

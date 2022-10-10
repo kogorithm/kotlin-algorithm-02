@@ -1,11 +1,18 @@
+import java.util.LinkedList
+import java.util.PriorityQueue
+
 class 단지번호붙이기{
 
-    val q= arrayListOf<Pair<Int,Int>>()
+    val q= LinkedList<Pair<Int,Int>>()
     var N=0
     lateinit var map:Array<Array<Int>>
     lateinit var visit:Array<Array<Boolean>>
-    val dx=arrayOf(0,1,-1,0)
-    val dy=arrayOf(1,0,0,-1)
+    val direction= listOf<Pair<Int,Int>>(
+        Pair(0,1),
+        Pair(0,-1),
+        Pair(1,0),
+        Pair(-1,0)
+    )
 
     fun bfs():Int{
         var count=0
@@ -16,8 +23,8 @@ class 단지번호붙이기{
             map[y][x]=0
 
             for(i in 0 until 4){
-                val ny=y+dy[i]
-                val nx=x+dx[i]
+                val ny=y+direction[i].first
+                val nx=x+direction[i].second
 
                 if(ny<0||ny>N-1||nx>N-1||nx<0){
                     continue
@@ -37,7 +44,7 @@ class 단지번호붙이기{
 
 
     fun solution(){
-        val arr= arrayListOf<Int>()
+        val arr= PriorityQueue<Int>()
         N=readln().toInt()
         map=Array(N){Array(N){0}}
         visit=Array(N){Array(N){false} }
@@ -56,7 +63,7 @@ class 단지번호붙이기{
             }
         }
 
-        arr.sort()
+
         val countOfComplex=arr.size
         println(countOfComplex)
         for(i in arr){
