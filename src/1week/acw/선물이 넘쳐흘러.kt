@@ -73,7 +73,7 @@ class 선물이넘쳐흘러 {
         }
     }
 
-    fun main(args: Array<String>) {
+    fun solution() {
         val (B, N, M) = readLine()!!.split(" ").map { it.toInt() }
         map = Array(B) { Array(B) { 0 } }
         timeArr = Array(N) { 0 }
@@ -151,3 +151,8 @@ class 선물이넘쳐흘러 {
 
     }
 }
+fun main(){
+    val solClass=선물이넘쳐흘러()
+    solClass.solution()
+}
+

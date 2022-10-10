@@ -29,7 +29,7 @@ class 현수막 {
 
     }
 
-    fun main(args: Array<String>) {
+    fun solution() {
         input = readLine()!!.split(" ").map { it.toInt() }.toTypedArray()
 
 
@@ -55,3 +55,8 @@ class 현수막 {
 
     }
 }
+fun main(){
+    val solClass=현수막()
+    solClass.solution()
+}
+

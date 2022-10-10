@@ -48,7 +48,7 @@ class 회전초밥 {
     }
 
     val br = System.`in`.bufferedReader()
-    fun main() = with(System.out.bufferedWriter()) {
+    fun solution() = with(System.out.bufferedWriter()) {
         var answer = 0
         input = br.readLine().split(" ").map { it.toInt() }.toTypedArray()
         sushi = Array(N) { 0 }
@@ -65,3 +65,8 @@ class 회전초밥 {
 
     }
 }
+fun main(){
+    val solClass=회전초밥()
+    solClass.solution()
+}
+

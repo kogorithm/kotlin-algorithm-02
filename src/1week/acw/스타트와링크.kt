@@ -56,7 +56,7 @@ class 스타트와링크 {
     }
 
 
-    fun main() = with(System.out.bufferedWriter()) {
+    fun solution() = with(System.out.bufferedWriter()) {
 
         val N = br.readLine().toInt()
         val halfN = N / 2
@@ -80,3 +80,8 @@ class 스타트와링크 {
 
 
 }
+fun main(){
+    val solClass=스타트와링크()
+    solClass.solution()
+}
+
