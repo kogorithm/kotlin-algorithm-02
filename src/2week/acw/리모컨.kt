@@ -20,7 +20,7 @@ fun possible(num:Int):Boolean{
     }while(n>0)
 
     return flag
-}
+}//버튼들로 채널 만들 수 있는지 check
 
 fun Int.magnitude():Int{
     var count=0
@@ -31,7 +31,7 @@ fun Int.magnitude():Int{
     }while(num>0)
 
     return count
-}
+}//자릿수 구하기
 
 
 fun findNum(N:Int):Int{

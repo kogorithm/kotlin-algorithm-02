@@ -1,6 +1,7 @@
 lateinit var train:Array<Int>
 
-
+//기차의 좌석 개수는 20개 1111 1111 1111 1111 1111 = 1048575 , 1 0000 0000 0000 0000 0000 = 1048576
+private const val maxPeople=1048575
 
 fun main(){
     val (N,M)= readln().split(" ").map { it.toInt() }
@@ -21,11 +22,11 @@ fun main(){
             }
             3->{
                 //한칸 뒤로
-                //기차의 좌석 개수는 20개 1111 1111 1111 1111 1111 = 1048575 , 1 0000 0000 0000 0000 0000 = 1048576
+
 
                 train[t-1]=train[t-1] shl 1
-                if(train[t-1]>1048575){
-                    train[t-1]-=1048576
+                if(train[t-1]>maxPeople){
+                    train[t-1]-=(maxPeople+1)
                 }
 
 
