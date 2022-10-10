@@ -1,3 +1,6 @@
+package `2week`.acw
+
+
 fun main(){
     val N=readln().toInt()
     var a=readln().split(" ").map { it.toInt() }

@@ -1,3 +1,5 @@
+package `2week`.acw
+
 class Solution {
 
     val indicator = listOf<Pair<String, String>>(
