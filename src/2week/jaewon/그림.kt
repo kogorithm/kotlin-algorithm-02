@@ -12,55 +12,72 @@ import kotlin.math.max
  *  2. 시간 초과 -> forEach를 for로 변경
  */
 
-lateinit var canvas : Array<IntArray>
-val dx = intArrayOf(0,1,0,-1)
-val dy = intArrayOf(1,0,-1,0)
-
-fun main(){
-    var num = 0
-    var area = 0
-    val (n,m) = readln().split(" ").map{ it.toInt()}
-    canvas = Array(n){ IntArray(m) }
-    repeat(n){i ->
-        val list = readln().split(" ").map { it.toInt()}.toMutableList()
-        list.forEachIndexed { j, n ->
-            canvas[i][j] = n
+class `그림` {
+    companion object {
+        fun getSolution(): Solution {
+            return Solution()
         }
     }
 
-    fun bfs(x: Int, y : Int) : Int {
-        var count = 1
-        val queue = mutableListOf<Pair<Int,Int>>()
-        queue.add(Pair(x,y))
-        canvas[x][y] = 0
+    class Solution {
+        lateinit var canvas : Array<IntArray>
+        val dx = intArrayOf(0,1,0,-1)
+        val dy = intArrayOf(1,0,-1,0)
 
-        while (queue.isNotEmpty()){
-            repeat(queue.size){
-                val front = queue.removeLast()
-                repeat(4){time ->
-                    val nx = front.first+dx[time]
-                    val ny = front.second+dy[time]
-                    if(nx in canvas.indices && ny in 0 until canvas[nx].size ){
-                        if(canvas[nx][ny] == 1){
-                            canvas[nx][ny] = 0
-                            queue.add(Pair(nx,ny))
-                            count++
-                        }
-                    }
-
+        fun solution(){
+            var num = 0
+            var area = 0
+            val (n,m) = readln().split(" ").map{ it.toInt()}
+            canvas = Array(n){ IntArray(m) }
+            repeat(n){i ->
+                val list = readln().split(" ").map { it.toInt()}.toMutableList()
+                list.forEachIndexed { j, n ->
+                    canvas[i][j] = n
                 }
             }
-        }
-        return count
-    }
 
-    for (i in 0 until n) for(j in 0 until m){
-        if(canvas[i][j] == 1){
-            area = max(area, bfs(i,j))
-            num++
+            fun bfs(x: Int, y : Int) : Int {
+                var count = 1
+                val queue = mutableListOf<Pair<Int,Int>>()
+                queue.add(Pair(x,y))
+                canvas[x][y] = 0
+
+                while (queue.isNotEmpty()){
+                    repeat(queue.size){
+                        val front = queue.removeLast()
+                        repeat(4){time ->
+                            val nx = front.first+dx[time]
+                            val ny = front.second+dy[time]
+                            if(nx in canvas.indices && ny in 0 until canvas[nx].size ){
+                                if(canvas[nx][ny] == 1){
+                                    canvas[nx][ny] = 0
+                                    queue.add(Pair(nx,ny))
+                                    count++
+                                }
+                            }
+
+                        }
+                    }
+                }
+                return count
+            }
+
+            for (i in 0 until n) for(j in 0 until m){
+                if(canvas[i][j] == 1){
+                    area = max(area, bfs(i,j))
+                    num++
+                }
+            }
+
+            println(num)
+            println(area)
         }
     }
-
-    println(num)
-    println(area)
 }
+
+fun main() {
+    println(`그림`.getSolution().solution())
+}
+
+
+
