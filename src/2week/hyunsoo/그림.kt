@@ -1,67 +1,75 @@
 package `2week`.hyunsoo
 
-/**
- * 이것도 DFS 문제!
- * 상하좌우를 탐색.
- * 연결되어있는 1의 개수를 합칠거야.
- */
-val paintData by lazy { mutableListOf<MutableList<Int>>() }
+class `전현수_그림`{
 
-val dirList = listOf(
-    Pair(-1, 0),
-    Pair(1, 0),
-    Pair(0, 1),
-    Pair(0, -1),
-)
+    /**
+     * 이것도 DFS 문제!
+     * 상하좌우를 탐색.
+     * 연결되어있는 1의 개수를 합칠거야.
+     */
+    val paintData by lazy { mutableListOf<MutableList<Int>>() }
 
-fun main() {
+    val dirList = listOf(
+        Pair(-1, 0),
+        Pair(1, 0),
+        Pair(0, 1),
+        Pair(0, -1),
+    )
 
-    val (n, m) = readln().split(" ").map { it.toInt() }
-    val madePaintSize = mutableListOf<Int>()
+    fun solution() {
 
-    repeat(n) {
-        val rowData = readln().split(" ").map { it.toInt() }.toMutableList()
-        paintData.add(rowData)
-    }
+        val (n, m) = readln().split(" ").map { it.toInt() }
+        val madePaintSize = mutableListOf<Int>()
 
-    for (i in 0 until n) {
-        for (j in 0 until m) {
-            val curPaintSize = findPaint(i, j, 0)
-            if (curPaintSize > 0) madePaintSize.add(curPaintSize)
+        repeat(n) {
+            val rowData = readln().split(" ").map { it.toInt() }.toMutableList()
+            paintData.add(rowData)
+        }
+
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                val curPaintSize = findPaint(i, j, 0)
+                if (curPaintSize > 0) madePaintSize.add(curPaintSize)
+            }
+        }
+
+        madePaintSize.apply {
+            if (size == 0) {
+                println(0)
+                println(0)
+                return
+            }
+            println(size)
+            println(maxOf { it })
         }
     }
 
-    madePaintSize.apply {
-        if (size == 0) {
-            println(0)
-            println(0)
-            return
+    fun findPaint(x: Int, y: Int, cnt: Int): Int {
+
+        var size = cnt
+        if (paintData[x][y] == 0) return 0
+
+        paintData[x][y] = 0
+        size++
+
+        dirList.forEach { dir ->
+            val nx = x + dir.first
+            val ny = y + dir.second
+            val maxX = paintData.size
+            val maxY = paintData.first().size
+
+            if (nx in 0 until maxX &&
+                ny in 0 until maxY
+            ) {
+                size += findPaint(nx, ny, 0)
+            }
         }
-        println(size)
-        println(maxOf { it })
+
+        return size
     }
 }
 
-fun findPaint(x: Int, y: Int, cnt: Int): Int {
-
-    var size = cnt
-    if (paintData[x][y] == 0) return 0
-
-    paintData[x][y] = 0
-    size++
-
-    dirList.forEach { dir ->
-        val nx = x + dir.first
-        val ny = y + dir.second
-        val maxX = paintData.size
-        val maxY = paintData.first().size
-
-        if (nx in 0 until maxX &&
-            ny in 0 until maxY
-        ) {
-            size += findPaint(nx, ny, 0)
-        }
-    }
-
-    return size
+fun main(){
+    val myClass = `전현수_그림`()
+    myClass.solution()
 }

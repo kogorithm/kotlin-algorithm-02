@@ -1,36 +1,44 @@
 package `2week`.hyunsoo
 
-/**
- * 길이가 n인 정수 배열 a, b가 있는데
- * 함수 s = a[0] * b[0] + .. a[n-1] * b[n-1] 임
- * s의 값을 가장 자게 만들기 위하여 a의 수를 재배열 하자..!
- *
- * 아이디어
- * - n은 50보다 작거나 같고 a, b의 각 원소는 100보다 작거나 같은 음이 아닌 정수
- * - 범위가 작은데? 완탐
- *      - 순열을 사용해서 a를 재배열할 모든 경우의 수를 뽑고 탐색해보자.
- *      - 50!....
- * - A의 최대 * B의 최소??
- */
+class `전현수_보물`{
 
-fun main() {
+    /**
+     * 길이가 n인 정수 배열 a, b가 있는데
+     * 함수 s = a[0] * b[0] + .. a[n-1] * b[n-1] 임
+     * s의 값을 가장 자게 만들기 위하여 a의 수를 재배열 하자..!
+     *
+     * 아이디어
+     * - n은 50보다 작거나 같고 a, b의 각 원소는 100보다 작거나 같은 음이 아닌 정수
+     * - 범위가 작은데? 완탐
+     *      - 순열을 사용해서 a를 재배열할 모든 경우의 수를 뽑고 탐색해보자.
+     *      - 50!....
+     * - A의 최대 * B의 최소??
+     */
 
-    val n = readln().toInt()
-    val arrayA = readln().split(" ").map { it.toInt() }.toMutableList()
-    val arrayB = readln().split(" ").map { it.toInt() }.toMutableList()
-    var ans = 0
+    fun solution() {
 
-    repeat(n) {
+        val n = readln().toInt()
+        val arrayA = readln().split(" ").map { it.toInt() }.toMutableList()
+        val arrayB = readln().split(" ").map { it.toInt() }.toMutableList()
+        var ans = 0
 
-        // A의 최소 * B의 최대
-        val minOfA = arrayA.minOf { it }
-        val maxOfB = arrayB.maxOf { it }
+        repeat(n) {
 
-        arrayA[arrayA.indexOf(minOfA)] = 101
-        arrayB[arrayB.indexOf(maxOfB)] = -1
+            // A의 최소 * B의 최대
+            val minOfA = arrayA.minOf { it }
+            val maxOfB = arrayB.maxOf { it }
 
-        ans += minOfA * maxOfB
+            arrayA[arrayA.indexOf(minOfA)] = 101
+            arrayB[arrayB.indexOf(maxOfB)] = -1
 
+            ans += minOfA * maxOfB
+
+        }
+        println(ans)
     }
-    println(ans)
+}
+
+fun main(){
+    val myClass = `전현수_보물`()
+    myClass.solution()
 }
