@@ -1,47 +1,49 @@
-val br=System.`in`.bufferedReader()
+class 감소하는수{
 
-var answer:Long=-1
-var decreasingList= arrayListOf<Long>()
+    val br = System.`in`.bufferedReader()
 
-
-fun findDecreasingNum(N:Long){
-    decreasingList.add(N)
-
-    var last=N%10
-    if(last==0L){
-        return
-    }
-
-    for(i in last-1 downTo 0){
-        val next=N*10+i
-        findDecreasingNum(next)
-    }
-
-}
+    var answer: Long = -1
+    var decreasingList = arrayListOf<Long>()
 
 
+    fun findDecreasingNum(N: Long) {
+        decreasingList.add(N)
 
-fun main() = with(System.out.bufferedWriter()) {
-
-    val N = br.readLine().toLong()
-
-    if (N < 11) {
-        answer = N.toLong()
-    }else if(N>1022){
-        answer=-1
-    }
-    else {
-
-        for(i in 0..9){
-            findDecreasingNum(i.toLong())
+        var last = N % 10
+        if (last == 0L) {
+            return
         }
-        decreasingList.sort()
-        answer=decreasingList[N.toInt()]
+
+        for (i in last - 1 downTo 0) {
+            val next = N * 10 + i
+            findDecreasingNum(next)
+        }
+
     }
 
 
-    write("$answer")
-    close()
+    fun main() = with(System.out.bufferedWriter()) {
 
+        val N = br.readLine().toLong()
+
+        if (N < 11) {
+            answer = N.toLong()
+        } else if (N > 1022) {
+            answer = -1
+        } else {
+
+            for (i in 0..9) {
+                findDecreasingNum(i.toLong())
+            }
+            decreasingList.sort()
+            answer = decreasingList[N.toInt()]
+        }
+
+
+        write("$answer")
+        close()
+
+
+    }
 
 }

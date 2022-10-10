@@ -1,66 +1,67 @@
-lateinit var input:Array<Int>
-lateinit var sushi:Array<Int>
+class 회전초밥 {
 
-private val N by lazy{
-    input[0]
-}
-private val d by lazy{
-    input[1]
-}
-private val k by lazy{
-    input[2]
-}
-private val c by lazy{
-    input[3]
-}
+    lateinit var input: Array<Int>
+    lateinit var sushi: Array<Int>
 
-fun countSushi(firstSushi:Int):Int{
-    var answer=0
-    var arr= arrayListOf<Int>()
-    var first=firstSushi
-    var now=first
+    private val N by lazy {
+        input[0]
+    }
+    private val d by lazy {
+        input[1]
+    }
+    private val k by lazy {
+        input[2]
+    }
+    private val c by lazy {
+        input[3]
+    }
 
-    while(first<N){
+    fun countSushi(firstSushi: Int): Int {
+        var answer = 0
+        var arr = arrayListOf<Int>()
+        var first = firstSushi
+        var now = first
 
-        while(arr.size<k){
-            arr.add(sushi[now])
-            now=(now+1)%N
+        while (first < N) {
+
+            while (arr.size < k) {
+                arr.add(sushi[now])
+                now = (now + 1) % N
+            }
+
+            var numOfSushi = arr.distinct().size
+            if (!arr.contains(c)) {
+                numOfSushi += 1
+            }
+            if (answer < numOfSushi) {
+                answer = numOfSushi
+            }
+
+            arr.removeFirst()
+            first++
+
         }
 
-        var numOfSushi=arr.distinct().size
-        if(!arr.contains(c)){
-            numOfSushi+=1
-        }
-        if(answer<numOfSushi){
-            answer=numOfSushi
-        }
 
-        arr.removeFirst()
-        first++
+        return answer
 
     }
 
+    val br = System.`in`.bufferedReader()
+    fun main() = with(System.out.bufferedWriter()) {
+        var answer = 0
+        input = br.readLine().split(" ").map { it.toInt() }.toTypedArray()
+        sushi = Array(N) { 0 }
 
-    return answer
+        for (i in 0 until N) {
+            val e = br.readLine().toInt()
+            sushi[i] = e
+        }
+        answer = countSushi(0)
 
-}
 
-val br=System.`in`.bufferedReader()
-fun main()=with(System.out.bufferedWriter()){
-    var answer=0
-    input= br.readLine().split(" ").map { it.toInt() }.toTypedArray()
-    sushi=Array(N){0}
+        write("$answer")
+        close()
 
-    for ( i in 0 until N){
-        val e= br.readLine().toInt()
-        sushi[i]=e
     }
-    answer=countSushi(0)
-
-
-    write("$answer")
-    close()
-
-
-
 }
