@@ -22,7 +22,7 @@ class 감소하는수{
     }
 
 
-    fun main() = with(System.out.bufferedWriter()) {
+    fun solution() = with(System.out.bufferedWriter()) {
 
         val N = br.readLine().toLong()
 
@@ -46,4 +46,8 @@ class 감소하는수{
 
     }
 
+}
+fun main(){
+    val solClass=감소하는수()
+    solClass.solution()
 }
