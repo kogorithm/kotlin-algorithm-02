@@ -1,3 +1,5 @@
+package `1week`.acw
+
 class 현수막 {
     lateinit var arr: Array<Array<Int>>
     var input = Array(2) { 0 }

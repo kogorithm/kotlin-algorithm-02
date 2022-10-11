@@ -1,3 +1,5 @@
+package `1week`.acw
+
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.hypot

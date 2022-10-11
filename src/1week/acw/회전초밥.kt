@@ -1,3 +1,5 @@
+package `1week`.acw
+
 class 회전초밥 {
 
     lateinit var input: Array<Int>

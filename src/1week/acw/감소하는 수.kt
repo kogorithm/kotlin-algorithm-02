@@ -1,3 +1,5 @@
+package `1week`.acw
+
 class 감소하는수{
 
     val br = System.`in`.bufferedReader()
