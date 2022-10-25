@@ -3,65 +3,46 @@ package `4week`.acw
 
 import java.util.*
 
-class `acw지름길`{
-    lateinit var distance:Array<Int>
-    var roads= arrayListOf<Triple<Int,Int,Int>>()
+class `acw지름길` {
+    lateinit var distance: Array<Int>
+    var roads = PriorityQueue(Comparator<Triple<Int, Int, Int>> { a, b ->
+        a.first - b.first
+    })
 
-    fun solution(){
-        val (K,D)=readln().split(" ").map{it.toInt()}
-        distance=Array(10001){it}
 
-        var now=0
-        var nowCost=0
+    fun solution() {
+        val (K, D) = readln().split(" ").map { it.toInt() }
+        distance = Array(10001) { it }
 
-        for(i in 1..K){
-            val (s,e,c)=readln().split(" ").map{it.toInt()}
 
-            if(e>D){
+        for (i in 1..K) {
+            val (s, e, c) = readln().split(" ").map { it.toInt() }
+
+            if (e > D) {
                 continue
             }
+            //목표보다 높은 지점을 향하는 지름길은 받지 않기
 
-            if(c>=(e-s)){
+            if (c >= (e - s)) {
                 continue
             }
+            //지름길이 cost가 더 클경우도 받지 않기
 
-            roads.add(Triple(s,e,c))
+            roads.add(Triple(s, e, c))
         }
 
-        while(roads.isNotEmpty()){
-            var now=roads.first()
-            var cost=now.second-now.first-now.third
-            var nowRange=now.first..now.second
-            val arr= LinkedList<Triple<Int,Int,Int>>()
-
-            for(i in 1 until roads.size){
-                val (s,e,c)=roads[i]
-                if(s in nowRange || e in nowRange){
-                    arr.add(Triple(s,e,c))
-                }
-            }
-            arr.add(now)
-            for(i in 0 until arr.size){
-                var costNow=arr[i].second-arr[i].first-arr[i].third
-                for(j in i+1 until arr.size){
-
-                    if(arr[i].second<=arr[j].first || arr[i].first>=arr[j].second){
-                        costNow+=(arr[j].second-arr[j].first-arr[j].third)
+        while (roads.isNotEmpty()) {
+            val (s, e, c) = roads.poll()
+            if (distance[e] - distance[s] > c) {
+                distance[e] = distance[s] + c
+                for (j in e + 1..D) {
+                    if (distance[j - 1] + 1 < distance[j]) {
+                        distance[j] = distance[j - 1] + 1
                     }
                 }
-                if(costNow>cost){
-                    cost=costNow
-                }
-
-            }//겹치는 것들 중 구성할 수 있는 최대 값 구성
-            distance[D]-=cost
-
-
-            roads.removeAll(arr)
-
-
+                // 지름길을 순회하며 더 최소값일 경우 그 뒤의 node들에 대해서 값 갱신
+            }
         }
-
 
 
 
@@ -70,7 +51,8 @@ class `acw지름길`{
 
     }
 }
-fun main(){
-    val sol =`acw지름길`()
+
+fun main() {
+    val sol = `acw지름길`()
     sol.solution()
 }
