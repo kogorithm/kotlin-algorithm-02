@@ -3,8 +3,9 @@ package `3week`.acw
 class 단풍잎이야기{
     lateinit var quests:Array<Array<Int>>
     lateinit var comb:Array<Boolean>
-    var answer=0
-    fun makeComb(arr:MutableList<Int>,targetNum:Int,count:Int,start:Int){
+    private var answer=0
+
+    private fun makeComb(arr:MutableList<Int>, targetNum:Int, count:Int, start:Int){
         if(count==targetNum){
 
             for(i in 1 until 2*targetNum+1){
@@ -12,10 +13,9 @@ class 단풍잎이야기{
                     arr.add(i)
                 }
             }
-            answer=answer.coerceAtLeast(countQuests(arr))
+            answer=answer.coerceAtLeast(quests.count{quest->arr.containsAll(quest.toList())})
 
             arr.clear()
-
             return
         }
 
@@ -25,21 +25,9 @@ class 단풍잎이야기{
             comb[i]=false
         }
     }
-    fun countQuests(arr:List<Int>):Int{
-        var count=0
-        loop1@for(i in quests){
-            for(j in i){
-                if(!arr.contains(j)) {
-                    continue@loop1
-                }
-            }
 
-            count++
-        }
-        return count
-    }
     fun solution(){
-        val (n,m,k)=readln().split(" ").map{it.toInt()}
+        val (n,m)=readln().split(" ").map{it.toInt()}
         quests=Array(m){readln().split(" ").map{it.toInt()}.toTypedArray()}
         comb=Array(2*n+1){false }
 
@@ -54,4 +42,3 @@ fun main() {
     val sol = 단풍잎이야기()
     sol.solution()
 }
-

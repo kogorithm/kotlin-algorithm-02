@@ -1,31 +1,31 @@
 package `3week`.acw
-
 import java.util.PriorityQueue
+
 
 class 크로스워드{
     lateinit var puzzle: Array<String>
+    var row=0
+    var column=0
 
-    lateinit var size: List<Int>
-
-    val direction = listOf<Pair<Int, Int>>(
+    private val direction = listOf(
         Pair(0, -1),
         Pair(0, 1),
         Pair(1, 0),
         Pair(-1, 0)
     )
+    data class Pos(val y: Int,val x: Int)
 
     var words = PriorityQueue<String>()
 
     fun isIsolate(y:Int,x:Int):Boolean{
         for(i in 0 until 4){
-            val ny=y+direction[i].first
-            val nx=x+direction[i].second
+            val nPos= Pos(y+direction[i].first,x+direction[i].second)
 
-            if(ny<0 || nx<0 || ny>=size[0] ||nx>=size[1]){
+            if(nPos.y<0 || nPos.x<0 || nPos.y>=column ||nPos.x>=row){
                 continue
             }
 
-            if(puzzle[ny][nx] !in 'a'..'z'){
+            if(puzzle[nPos.y][nPos.x] !in 'a'..'z'){
                 return false
             }
         }
@@ -34,14 +34,14 @@ class 크로스워드{
     }
 
     fun solution() {
+        readln().split(" ").let{ (c,r) ->
+            row=r.toInt()
+            column=c.toInt()
+        }
+        puzzle = Array(column){ readln() }
 
-        size = readln().split(" ").map { it.toInt() }
 
-        puzzle = Array(size[0]){ readln() }
-
-        //visit = Array(size[0]) { Array(size[1]) { false } }
-
-        repeat(size[0]){
+        repeat(column){
             puzzle[it].split("#").map {
                 if(it.length>1){
                     words.add(it)
@@ -50,9 +50,9 @@ class 크로스워드{
 
         }//가로
 
-        repeat(size[1]){
+        repeat(row){
             var word=""
-            for(i in 0 until size[0]){
+            for(i in 0 until column){
                 word+=puzzle[i][it]
             }
             word.split("#").map {
@@ -62,8 +62,8 @@ class 크로스워드{
             }
         }//세로
 
-        for(i in 0 until size[0]){
-            for(j in 0 until size[1]){
+        for(i in 0 until column){
+            for(j in 0 until row){
                 isIsolate(i,j)
             }
         }
@@ -77,3 +77,4 @@ fun main(){
     val sol = 크로스워드()
     sol.solution()
 }
+
