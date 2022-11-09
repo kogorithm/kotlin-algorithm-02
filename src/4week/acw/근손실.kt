@@ -8,10 +8,7 @@ class `acw근손실` {
 
     fun makePermutation(arr: MutableList<Int>, power: Int, day: Int, N: Int, K: Int) {
         //순열구성하기
-        var powerNow = power
-        if (arr.isNotEmpty()) {
-            powerNow = power + arr.last() - K
-        }
+        val powerNow = power + (arr.takeIf { it.isNotEmpty() }?.let { it.last() - K } ?: 0)
 
         if (powerNow < 500) {
             return
@@ -51,4 +48,3 @@ fun main() {
     val sol = `acw근손실`()
     sol.solution()
 }
-

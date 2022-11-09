@@ -1,7 +1,7 @@
 package `4week`.acw
 
 class `acw트리의부모찾기` {
-    lateinit var treeMap: Array<MutableList<Int>>
+    lateinit var treeMap: Array<MutableSet<Int>>
     lateinit var parent: Array<Int>
     var N = 0
 
@@ -18,7 +18,7 @@ class `acw트리의부모찾기` {
 
     fun solution() {
         N = readln().toInt()
-        treeMap = Array(N + 1) { mutableListOf() }
+        treeMap = Array(N + 1) { mutableSetOf() }
         parent = Array(N + 1) { 0 }
 
         for (i in 1 until N) {
@@ -29,9 +29,7 @@ class `acw트리의부모찾기` {
         }
 
         dfs(1)
-        for (i in 2..N) {
-            println(parent[i])
-        }
+        println(parent.drop(2).joinToString("\n"))
 
     }
 }

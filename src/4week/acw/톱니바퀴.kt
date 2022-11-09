@@ -14,16 +14,15 @@ class `acw톱니바퀴` {
     var turn = arrayListOf<Pair<Int, Int>>()
 
 
-    fun addTurn(w: Int, turnD: Int) {
+    private fun addTurn(w: Int, turnD: Int) {
         //dfs로 들어가면서 회전해야할 것들 turn에 추가해주기
 
 
-        var wheelNowRight = if (wheel[w] and (1 shl RIGHT) != 0) 1 else 0
-        var wheelNowLeft = if (wheel[w] and (1 shl LEFT) != 0) 1 else 0
+        val wheelNowRight = if (wheel[w] and (1 shl RIGHT) != 0) 1 else 0
+        val wheelNowLeft = if (wheel[w] and (1 shl LEFT) != 0) 1 else 0
 
         if (w - 1 >= 0) {
             val leftWheelsRight = if (wheel[w - 1] and (1 shl RIGHT) != 0) 1 else 0
-
             if (wheelNowLeft != leftWheelsRight && !visit[w - 1]) {
                 visit[w - 1] = true
                 turn.add(Pair(w - 1, turnD * -1))
@@ -43,7 +42,7 @@ class `acw톱니바퀴` {
 
     }
 
-    fun turnWheel() {
+    private fun turnWheel() {
 
         while (turn.isNotEmpty()) {
             val (w, d) = turn.removeFirst()
@@ -100,10 +99,11 @@ class `acw톱니바퀴` {
         }
 
 
-        var answer = 0
-        for (i in 0 until 4) {
-            if ((wheel[i] and (1 shl 7)) != 0) {
-                answer += (2.0).pow(i).toInt()
+        val answer = wheel.withIndex().sumOf { (idx, value) ->
+            if (value and (1 shl 7) != 0) {
+                (2.0).pow(idx).toInt()
+            } else {
+                0
             }
         }
 
